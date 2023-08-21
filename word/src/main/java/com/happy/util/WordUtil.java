@@ -23,6 +23,10 @@ import java.util.regex.Pattern;
 * @author Luck
 * @date 2023年06月20日 20:21
 */public class WordUtil {
+
+    public static void convertToImage(){
+
+    }
     /**
      * 1. 读取行，记录行
      * 2. 读取当前行的单元格中的每一个数据的书签 获取最大值并新增对应的行数
@@ -77,7 +81,7 @@ import java.util.regex.Pattern;
                         }
                     }
                     // 当前单元格的书签和cellXml信息
-                    Map<String, String> cellBookmarkXmlMap = new HashMap<>();
+                    Map<String, String> cellBookmarkXmlMap = new HashMap<>(8);
                     cellBookmarkXmlMap.put("bookmarkName", bookmarkName);
                     cellBookmarkXmlMap.put("cellXml", cellGroup);
                     cellBookmarkXmlMapList.add(cellBookmarkXmlMap);
@@ -143,7 +147,7 @@ import java.util.regex.Pattern;
                     targetXml.append(newRowXml);
                 }
                 // 替换行数据
-                if (targetXml != null && targetXml.length() != 0) {
+                if (targetXml.length() != 0) {
                     continue;
                 }
                 // 替换当前行数据为最终的cell数据
@@ -178,7 +182,7 @@ import java.util.regex.Pattern;
      * @param cellWidth 单元格宽度
      * @param htXwpfDocument doc数据
      * @return image 的xml数据
-     * @throws Exception
+     * @throws Exception IO异常
      */
     public static String getImageXml(File file, Double cellWidth, XWPFDocument htXwpfDocument) throws Exception {
         String imageName = file.getName();
@@ -217,8 +221,8 @@ import java.util.regex.Pattern;
      * @param imageWidthEmu 图片宽度
      * @param imageHeightEmu 图片高度
      * @param imageNameDesc 图片描述，接入图片名称
-     * @param imageRefId
-     * @return
+     * @param imageRefId 图片引用id
+     * @return 生成的图片字符串
      */
     public static String generateImageXml(String imageWidthEmu, String imageHeightEmu, String imageNameDesc, String imageRefId, int imageId){
         String imageRpr = "<w:p><w:pPr><w:rPr><w:rFonts w:hint=\"default\"/><w:vertAlign w:val=\"baseline\"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint=\"default\"/><w:vertAlign w:val=\"baseline\"/></w:rPr>";
@@ -261,10 +265,10 @@ import java.util.regex.Pattern;
 
     /**
      * 根据标签名称匹配标签中的属性
-     * @param element
+     * @param element 元素
      * @param source 来源数据必须是单一闭合标签内容
-     * @param attr
-     * @return
+     * @param attr 属性
+     * @return 字符串
      */
     private static String getPrValueOfXmlClosingTag(String element, String source, String attr) {
         source = source.replaceAll("/>", " />");
